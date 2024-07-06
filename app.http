@@ -1,0 +1,52 @@
+###default path
+GET http://localhost:8000
+###get user 
+GET http://localhost:8000/users
+###create a new user
+
+POST http://localhost:8000/users
+Content-Type: application/json
+
+{
+  "full_name": "John Doe",
+  "contact_phone": "1234567890",
+  "email": "johndoe@example.com",
+  "address":"maua"
+}
+
+###update user information
+
+PUT http://localhost:8000/users/1
+Content-Type: application/json
+
+{
+    "full_name": "antony",
+    "email": "ANTONY@GMAIL",
+    "contact_phone": 799919291
+  }
+
+###delete users details
+  DELETE http://localhost:8000/users
+
+###register
+POST   http://localhost:8000/auth/register
+Content-Type: application/json
+
+{
+     "full_name": "antony githinji",
+    "username": "antonyg",
+    "contact_phone": "1234567890",
+     "email": "antohsnizzah@gmail.com",
+    "password": "pass",
+    "user_id": "100",
+    "address":"maua"
+  }
+
+###login~~
+POST   http://localhost:8000/auth/login
+Content-Type: application/json
+
+{
+    "username": "antonyg",
+    "password": "pass"
+}
