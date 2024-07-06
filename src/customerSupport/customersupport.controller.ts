@@ -1,0 +1,13 @@
+import { getCustomerSupportTicketsByIdService,createCustomerSupportTicketsService,deleteCustomerSupportTicketsService,getCustomerSupportTicketsService,updateCustomerSupportTicketsService } from "./customersupport.service";
+import { getController,createController,deleteController,getAllController,updateController } from "../generics/generics.controller";
+
+export const getCustomerSupportTicketsController = getController(getCustomerSupportTicketsByIdService);
+
+export const getAllCustomerSupportTicketsController = getAllController(getCustomerSupportTicketsService);
+
+export const createCustomerSupportTicketsController = createController(createCustomerSupportTicketsService);
+
+export const deleteCustomerSupportTicketsController = deleteController(getCustomerSupportTicketsService, deleteCustomerSupportTicketsService);
+
+export const updateCustomerSupportTicketsController = updateController(getCustomerSupportTicketsService, updateCustomerSupportTicketsService);
+

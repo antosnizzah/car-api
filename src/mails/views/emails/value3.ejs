@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome to Car Rental Service</title>
+    <style>
+        .button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 12px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+            transform: scale(1.1);
+        }
+
+        .image {
+            height: 30%;
+            width: 50%;
+            transition: transform 0.3s, opacity 0.3s;
+        }
+
+        .image:hover {
+            transform: scale(1.05);
+            opacity: 0.8;
+        }
+
+        .container {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <p>Hello <%= username %>,</p>
+    <p>Thank you for registering with our car rental service.</p>
+    <p>To start exploring our wide range of vehicles, please verify your email by clicking the button below:</p>
+    <div class="container">
+        <a href="<%= verificationUrl %>" class="button">Verify Email</a>
+    </div>
+    <p>Best regards,<br/>Your Car Rental Service Team</p>
+    <div class="container">
+        <img src="<%= imageUrl %>" alt="Car Rental Service" class="image"/>
+    </div>
+</body>
+</html>

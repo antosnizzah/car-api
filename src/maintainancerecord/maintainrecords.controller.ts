@@ -1,0 +1,10 @@
+import { getController,createController,deleteController,getAllController,updateController } from "../generics/generics.controller";
+import { getMaintainanceRecordByIdService,createMaintainanceRecordService,deleteMaintainanceRecordService,getMaintainanceRecordService,updateMaintainanceRecordService } from "./maintainrecords.service";
+
+const maintainanceRecordController = getController(getMaintainanceRecordByIdService);
+const getAllMaintainanceRecordController = getAllController(getMaintainanceRecordService);
+const createMaintainanceRecordController = createController(createMaintainanceRecordService);
+const deleteMaintainanceRecordController = deleteController(getMaintainanceRecordService, deleteMaintainanceRecordService);
+const updateMaintainanceRecordController = updateController(getMaintainanceRecordService, updateMaintainanceRecordService);
+
+export { maintainanceRecordController, getAllMaintainanceRecordController, createMaintainanceRecordController, deleteMaintainanceRecordController, updateMaintainanceRecordController };
