@@ -1,37 +1,50 @@
 import db from "../drizzle/db";
-import { BookingTable,TIBooking,TSBooking } from "../drizzle/schema";
+import { VehicleTable, TSVehicle, TIVehicle, VehicleSpecificationTable } from '../drizzle/schema';
 
 import { eq } from "drizzle-orm";
 
-
-
-// GET ALLBooking 
-export const getbookingService = async ()=>{
-    return await db.query.BookingTable.findMany();
-}
-
-// GET Booking BY ID
-export const getbookingByIdService = async (id: number) => {
-    const booking = await db.query.UsersTable.findFirst({
-        where: eq(BookingTable.booking_id, id),
+// GET ALL Vehicle
+export const getVehicleService = async ()=>{
+    return await db.query.VehicleTable.findMany({
+        with: {
+            vehicleSpecification: true,
+        }
     });
 }
 
-// CREATE Booking
-export const createbookingService = async (item: TIBooking) => {
-    await db.insert(BookingTable).values(item)
-    return "booking created successfully";
+// GET  Vehicle BY ID
+export const getVehicleByIdService = async (id: number) => {
+    const  Vehicle = await db.query. VehicleTable.findFirst({
+        where: eq( VehicleTable.vehicle_id, id),
+        with: {
+            vehicleSpecification:{
+                columns:{
+                manufacturer: true,
+                    model: true,
+                    year: true,
+                    engine_capacity: true,
+                    fuel_type: true,
+                }
+            }
+        }
+    });
 }
 
-//  UPDATE Booking
-export const updatebookingService = async(id: number, res: any): Promise<string | undefined>=> {
-    await db.update(BookingTable).set(res).where(eq(BookingTable.booking_id, id))
-    return "booking updated successfully";
+// CREATE  Vehicle
+export const createVehicleService = async (item: TIVehicle) => {
+    await db.insert( VehicleTable).values(item)
+    return "vehicle created successfully";
+}
+
+//  UPDATE  Vehicle
+export const updateVehicleService = async(id: number, res: any): Promise<string | undefined>=> {
+    await db.update( VehicleTable).set(res).where(eq( VehicleTable.vehicle_id, id))
+    return "vehicle updated successfully";
 
 }
-// DELETE Users
-export const deletebookingService= async (id:number):Promise<boolean>=>{
-    await db.delete(BookingTable).where(eq(BookingTable.booking_id,id)).returning()
+// DELETE  Vehicle
+export const deleteVehicleService= async (id:number):Promise<boolean>=>{
+    await db.delete( VehicleTable).where(eq( VehicleTable.vehicle_id,id)).returning()
     return true
  }
 

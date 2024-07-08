@@ -50,3 +50,9 @@ Content-Type: application/json
     "username": "antonyg",
     "password": "pass"
 }
+###
+GET http://localhost:8000/vehicles
+###
+
+GET http://localhost:8000/vehiclespecifications
+###

@@ -13,11 +13,20 @@ import { fleetManagementRouter } from './fleetmanagement/fleetmanagement.router'
 import { locationBranchesRouter } from './LocationBranches/locationbranch.router';
 import { maintainanceRecordsRouter } from './maintainancerecord/maintainrecord.router';
 import { paymentRouter } from './payment/payment.router';
+import { cors } from 'hono/cors';
 import { promofferRouter } from './promotionaloffer/promoffer.router';
 import { authRouter } from './auth/auth.router';
+import { vehicleRouter } from './vehicle/vehicle.router';
+import { vehicleSpecsRouter } from './vehicleSpecs/vehiclespecs.router';
+
+const app = new Hono();// Enable CORS for all routes
+app.use('*', cors({
+  origin: 'http://localhost:5173', // Replace with your frontend URL
+  allowMethods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
+}));
 
 
-const app = new Hono();
 // Import your routes here
 
 
@@ -31,6 +40,8 @@ app.route("/", maintainanceRecordsRouter)
 app.route("/", paymentRouter)
 app.route("/", promofferRouter)
 app.route("/auth", authRouter)
+app.route("/",vehicleRouter)
+app.route("/",vehicleSpecsRouter)
 
 
 

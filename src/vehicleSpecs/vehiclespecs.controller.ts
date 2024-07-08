@@ -1,0 +1,14 @@
+import { getController,createController,deleteController,getAllController,updateController } from "../generics/generics.controller";
+import { getVehicleSpecificationByIdService,createVehicleSpecificationService,deleteVehicleSpecificationService,getVehicleSpecificationService,updateVehicleSpecificationService } from "./vehiclespecs.service";
+
+const vehicleSpecificationController = getController(getVehicleSpecificationByIdService);
+
+const getAllVehicleSpecificationsController = getAllController(getVehicleSpecificationService);
+
+const createVehicleSpecificationController = createController(createVehicleSpecificationService);
+
+const deleteVehicleSpecificationController = deleteController(getVehicleSpecificationService, deleteVehicleSpecificationService);
+
+const updateVehicleSpecificationController = updateController(getVehicleSpecificationService, updateVehicleSpecificationService);
+
+export { vehicleSpecificationController, getAllVehicleSpecificationsController, createVehicleSpecificationController, deleteVehicleSpecificationController, updateVehicleSpecificationController };
