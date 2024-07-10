@@ -1,14 +1,12 @@
-import { getbookingByIdService,createbookingService,deletebookingService,getbookingService,updatebookingService } from "../booking/booking.service";
+import  {getbookingByIdService,createbookingofferService,deletebookingofferService,getbookingofferService,updatebookingofferService } from "./bookingoffer.service";
 import { getController,createController,deleteController,getAllController,updateController } from "../generics/generics.controller";
+ 
+export const getbookingofferController = getController(getbookingofferService);
 
-const bookingController = getController(getbookingByIdService);
+export const getbookingByIdController = getController(getbookingByIdService);
+export const createbookingofferController = createController(createbookingofferService);
+export const deletebookingofferController = deleteController(getbookingofferService, deletebookingofferService);
+export const updatebookingofferController = updateController(getbookingofferService, updatebookingofferService);
 
-const getAllBookingsController = getAllController(getbookingService);
 
-const createBookingController = createController(createbookingService);
 
-const deleteBookingController = deleteController(getbookingService, deletebookingService);
-
-const updateBookingController = updateController(getbookingService, updatebookingService);
-
-export { bookingController, getAllBookingsController, createBookingController, deleteBookingController, updateBookingController };
