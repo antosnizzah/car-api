@@ -12,9 +12,10 @@ export const getLocationBranchesService = async ()=>{
 
 // GET LocationBranches BY ID
 export const getLocationBranchesByIdService = async (id: number) => {
-    const LocationBranches = await db.query.LocationBranchesTable.findFirst({
+    const locationBranch = await db.query.LocationBranchesTable.findFirst({
         where: eq(LocationBranchesTable.location_id, id),
     });
+    return locationBranch;
 }
 
 // CREATE LocationBranches

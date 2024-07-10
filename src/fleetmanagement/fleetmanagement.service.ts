@@ -12,9 +12,10 @@ export const getFleetManagementService = async ()=>{
 
 // GET FleetManagement BY ID
 export const getFleetManagementByIdService = async (id: number) => {
-    const booking = await db.query.FleetManagementTable.findFirst({
+    const fleetManagement = await db.query.FleetManagementTable.findFirst({
         where: eq(FleetManagementTable.fleet_id, id),
     });
+    return fleetManagement;
 }
 
 // CREATE FleetManagement

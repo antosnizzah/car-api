@@ -12,9 +12,10 @@ export const getVehicleSpecificationService = async ()=>{
 
 // GET VehicleSpecification BY ID
 export const getVehicleSpecificationByIdService = async (id: number) => {
-    const VehicleSpecification = await db.query.VehicleSpecificationTable.findFirst({
+    const vehicleSpecification = await db.query.VehicleSpecificationTable.findFirst({
         where: eq(VehicleSpecificationTable.vehicleSpec_id, id),
     });
+    return vehicleSpecification;
 }
 
 // CREATE VehicleSpecification

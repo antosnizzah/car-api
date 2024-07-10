@@ -18,6 +18,7 @@ import { promofferRouter } from './promotionaloffer/promoffer.router';
 import { authRouter } from './auth/auth.router';
 import { vehicleRouter } from './vehicle/vehicle.router';
 import { vehicleSpecsRouter } from './vehicleSpecs/vehiclespecs.router';
+import { reviewRouter } from './reviewrating/rating.router';
 
 const app = new Hono();// Enable CORS for all routes
 app.use('*', cors({
@@ -42,6 +43,7 @@ app.route("/", promofferRouter)
 app.route("/auth", authRouter)
 app.route("/",vehicleRouter)
 app.route("/",vehicleSpecsRouter)
+app.route('/', reviewRouter)
 
 
 

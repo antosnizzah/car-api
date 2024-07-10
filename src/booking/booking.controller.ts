@@ -1,7 +1,7 @@
-import { getbookingService,getbookingByIdService,createbookingService,deletebookingService,updatebookingService, } from "./booking.service";
+import { getbookingService,getBookingByIdService,createbookingService,deletebookingService,updatebookingService, } from "./booking.service";
 import { getController,createController,deleteController,getAllController,updateController } from "../generics/generics.controller";
 
-export const bookingController = getController(getbookingByIdService);
+export const bookingController = getController(getBookingByIdService);
 
 export const getAllBookingsController = getAllController(getbookingService);
 

@@ -12,9 +12,10 @@ export const getPromotionalOffersService = async ()=>{
 
 // GET PromotionalOffers BY ID
 export const getPromotionalOffersByIdService = async (id: number) => {
-    const PromotionalOffers = await db.query.UsersTable.findFirst({
+    const promotionalOffer = await db.query.PromotionalOffersTable.findFirst({
         where: eq(PromotionalOffersTable.offer_id, id),
     });
+    return promotionalOffer;
 }
 
 // CREATE PromotionalOffers

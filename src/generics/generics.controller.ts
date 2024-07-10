@@ -1,15 +1,27 @@
-
+import { getEntity } from "./gen.functions";
 import {Context} from "hono";
 
 
 // get all controller
-export const getController = <T> (getFunction: (id:number)=> Promise<T | undefined>)=>async (c:Context)=>{
+export const getController = <T>(getFunction: (id: number) => Promise<T | undefined>) => async (c: Context) => {
     const id = parseInt(c.req.param("id"));
-    if (isNaN(id)) return c.text("Invalid ID", 400);
-    const item = await getFunction(id);
-    if (!item) return c.text("Not Found", 404);
-    return c.json(item);
+    if (isNaN(id)) {
+        console.error("Invalid ID:", c.req.param("id"));
+        return c.text("Invalid ID", 400);
+    }
+
+    try {
+        const entity = await getFunction(id);
+        if (entity === undefined) {
+            return c.text("Entity not found", 404);
+        }
+        return c.json(entity, 200);
+    } catch (error) {
+        console.error(`Error getting entity for id ${id}:`, error);
+        return c.text("Internal server error", 500);
+    }
 }
+
 // create controller
 export const createController = <T> (createFunction: (data:T)=> Promise<string>)=>async (c:Context)=>{
     try{
@@ -79,3 +91,4 @@ export const getAllController = <T>(getFunction: () => Promise<T[]>) => async (c
         return c.text("Internal Server Error", 500);
 }
 }
+

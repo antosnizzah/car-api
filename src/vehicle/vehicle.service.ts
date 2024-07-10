@@ -14,20 +14,27 @@ export const getVehicleService = async ()=>{
 
 // GET  Vehicle BY ID
 export const getVehicleByIdService = async (id: number) => {
-    const  Vehicle = await db.query. VehicleTable.findFirst({
-        where: eq( VehicleTable.vehicle_id, id),
-        with: {
-            vehicleSpecification:{
-                columns:{
-                manufacturer: true,
-                    model: true,
-                    year: true,
-                    engine_capacity: true,
-                    fuel_type: true,
-                }
-            }
-        }
-    });
+    try {
+
+        const Vehicle = await db.query.VehicleTable.findFirst({
+            where: eq(VehicleTable.vehicle_id, id),
+            with: {
+                vehicleSpecification: {
+                    columns: {
+                        manufacturer: true,
+                        model: true,
+                        year: true,
+                        engine_capacity: true,
+                        fuel_type: true,
+                    },
+                },
+            },
+        });
+
+        return Vehicle;
+    } catch (error) {
+        throw error;
+    }
 }
 
 // CREATE  Vehicle

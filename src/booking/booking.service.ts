@@ -11,10 +11,11 @@ export const getbookingService = async ()=>{
 }
 
 // GET Booking BY ID
-export const getbookingByIdService = async (id: number) => {
-    const booking = await db.query.UsersTable.findFirst({
+export const getBookingByIdService = async (id: number) => {
+    const booking = await db.query.BookingTable.findFirst({
         where: eq(BookingTable.booking_id, id),
     });
+    return booking;
 }
 
 // CREATE Booking

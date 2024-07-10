@@ -12,9 +12,10 @@ export const getPaymentTableService = async ()=>{
 
 // GET Payment BY ID
 export const getPaymentTableByIdService = async (id: number) => {
-    const Payment = await db.query.PaymentTable.findFirst({
+    const payment = await db.query.PaymentTable.findFirst({
         where: eq(PaymentTable.payment_id, id),
     });
+    return payment;
 }
 
 // CREATEPayment

@@ -1,7 +1,7 @@
 ###default path
 GET http://localhost:8000
 ###get user 
-GET http://localhost:8000/users
+GET http://localhost:8000/users/2
 ###create a new user
 
 POST http://localhost:8000/users
@@ -51,8 +51,9 @@ Content-Type: application/json
     "password": "pass"
 }
 ###
-GET http://localhost:8000/vehicles
+GET http://localhost:8000/bookings/
 ###
 
 GET http://localhost:8000/vehiclespecifications
 ###
+GET http://localhost:8000/getReviewsRating/2

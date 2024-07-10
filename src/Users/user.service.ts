@@ -12,15 +12,15 @@ export const getUsersService = async ()=>{
 
 // GET Users BY ID
 export const getUsersByIdService = async (id: number) => {
-    const Users = await db.query.UsersTable.findFirst({
+    const user = await db.query.UsersTable.findFirst({
         where: eq(UsersTable.user_id, id),
-        columns:{
+        columns: {
             full_name: true,
             contact_phone: true,
             email: true
         }
     });
-    
+    return user;
 }
 
 // CREATE Users

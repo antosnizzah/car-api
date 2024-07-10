@@ -15,6 +15,7 @@ export const getMaintainanceRecordByIdService = async (id: number) => {
     const MaintainanceRecord = await db.query.MaintainanceRecordTable.findFirst({
         where: eq(MaintainanceRecordTable.maintenance_id, id),
     });
+    return MaintainanceRecord;
 }
 
 // CREATE MaintainanceRecord

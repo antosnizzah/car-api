@@ -12,9 +12,10 @@ export const getCustomerSupportTicketsService = async ()=>{
 
 // GET CustomerSupportTickets BY ID
 export const getCustomerSupportTicketsByIdService = async (id: number) => {
-    const booking = await db.query.CustomerSupportTicketsTable.findFirst({
+    const customerSupportTicket = await db.query.CustomerSupportTicketsTable.findFirst({
         where: eq(CustomerSupportTicketsTable.ticket_id, id),
     });
+    return customerSupportTicket;
 }
 
 // CREATE CustomerSupportTickets
