@@ -12,7 +12,7 @@ import { customerSupportRouter } from './customerSupport/customersupport.router'
 import { fleetManagementRouter } from './fleetmanagement/fleetmanagement.router';
 import { locationBranchesRouter } from './LocationBranches/locationbranch.router';
 import { maintainanceRecordsRouter } from './maintainancerecord/maintainrecord.router';
-import { paymentRouter } from './payment/payment.router';
+import { paymentsRouter } from './payment/payment.router';
 import { cors } from 'hono/cors';
 import { promofferRouter } from './promotionaloffer/promoffer.router';
 import { authRouter } from './auth/auth.router';
@@ -38,7 +38,7 @@ app.route("/", customerSupportRouter)
 app.route("/", fleetManagementRouter)
 app.route("/", locationBranchesRouter)
 app.route("/", maintainanceRecordsRouter)
-app.route("/", paymentRouter)
+app.route("/", paymentsRouter)
 app.route("/", promofferRouter)
 app.route("/auth", authRouter)
 app.route("/",vehicleRouter)

@@ -6,7 +6,7 @@ import { date } from "drizzle-orm/mysql-core";
 
 // Define Users table
 export const UsersTable = pgTable("users", {
-  user_id: serial("user_id").primaryKey(),
+  user_id: serial("user_id").notNull().primaryKey(),
   full_name: varchar("full_name").notNull(),
   email: varchar("email").notNull(),
   contact_phone: integer("contact_phone").notNull(),

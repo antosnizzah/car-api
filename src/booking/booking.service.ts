@@ -1,5 +1,5 @@
 import db from "../drizzle/db";
-import { BookingTable,TIBooking,TSBooking } from "../drizzle/schema";
+import { BookingTable, TIBooking,TSBooking} from '../drizzle/schema';
 
 import { eq } from "drizzle-orm";
 
@@ -7,13 +7,77 @@ import { eq } from "drizzle-orm";
 
 // GET ALLBooking 
 export const getbookingService = async ()=>{
-    return await db.query.BookingTable.findMany();
+    return await db.query.BookingTable.findMany({
+        columns:{
+            user_id:false,
+            vehicle_id:false
+
+        },
+        with:{
+            user:{
+                columns:{
+                    full_name:true,
+                    contact_phone:true,
+                    email:true,
+                    address:true
+                }
+            },
+            vehicle:{
+                columns:{
+                    vehicle_id:false,
+                    vehicle_specification_id:false
+                },
+                with:{
+                    vehicleSpecification:{
+                        columns:{
+                            manufacturer:true,
+                            model:true,
+                            year:true,
+                            engine_capacity:true,
+                            fuel_type:true,
+                        }
+                    },
+                }
+            }
+        }
+    });
 }
 
 // GET Booking BY ID
 export const getBookingByIdService = async (id: number) => {
     const booking = await db.query.BookingTable.findFirst({
         where: eq(BookingTable.booking_id, id),
+        columns:{
+            user_id:false,
+            vehicle_id:false
+        },
+        with:{
+            user:{
+                columns:{
+                    full_name:true,
+                    contact_phone:true,
+                    email:true,
+                    address:true
+                }
+            },
+            vehicle:{
+                columns:{
+                    vehicle_id:false,
+                    vehicle_specification_id:false
+                },
+                with:{
+                    vehicleSpecification:{
+                        columns:{
+                            manufacturer:true,
+                            model:true,
+                            year:true,
+                            engine_capacity:true,
+                            fuel_type:true,
+                        }
+                    },
+                }
+            }
+        }
     });
     return booking;
 }

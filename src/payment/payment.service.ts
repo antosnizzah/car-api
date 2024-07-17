@@ -1,38 +1,47 @@
 import db from "../drizzle/db";
-import { PaymentTable,TIPayment } from "../drizzle/schema";
-
+import { TSPayment, TIPayment, PaymentTable } from "../drizzle/schema";
 import { eq } from "drizzle-orm";
+import "dotenv/config";
+import { stripe } from "../drizzle/db";
 
-
-
-// GET ALL Payment
-export const getPaymentTableService = async ()=>{
-    return await db.query.PaymentTable.findMany();
-}
-
-// GET Payment BY ID
-export const getPaymentTableByIdService = async (id: number) => {
-    const payment = await db.query.PaymentTable.findFirst({
-        where: eq(PaymentTable.payment_id, id),
+export const createPaymentService = async (payment: TIPayment & { amount: number }) => {
+    if (payment.booking_id === undefined) {
+        throw new Error("Booking ID is required");
+    }
+    //create a payment intent
+    const paymentIntent = await stripe.paymentIntents.create({
+        amount: Number(payment.amount) * 100,
+        currency: 'usd',
+        metadata: { booking_id: payment.booking_id },
     });
-    return payment;
+
+    //Save payment details to the database
+    await db.insert(PaymentTable).values({
+        user_id: Number(payment.user_id), // Convert to number if needed
+        booking_id: Number(payment.booking_id), // Convert to number if needed
+        payment_amount: payment.amount.toString(), // Ensure amount is a string
+        payment_status: 'Pending',
+        payment_method: payment.payment_method,
+        transaction_id: paymentIntent.id,
+        payment_date: new Date(),
+    }).execute();
+    
+    return { message: 'Payment created successfully', client_secret: paymentIntent.client_secret };
 }
 
-// CREATEPayment
-export const createPaymentService = async (item: TIPayment) => {
-    await db.insert(PaymentTable).values(item)
-    return "Payment created successfully";
+
+export const getPaymentByBookingService = async (booking_id: number) => {
+    return await db.query.PaymentTable.findFirst({
+        where: eq(PaymentTable.booking_id, booking_id),
+    });
 }
 
-//  UPDATE Payment
-export const updatePaymentService = async(id: number, res: any): Promise<string | undefined>=> {
-    await db.update (PaymentTable).set(res).where(eq(PaymentTable.payment_id, id))
-    return "Payment updated successfully";
-
+export const updatePaymentService = async (id: number, payment: TIPayment) =>{
+    await db.update(PaymentTable).set(payment).where(eq(PaymentTable.payment_id, id)).execute();
+    return 'Payment updated successfully';
 }
-// DELETE Payment
-export const deletePaymentService= async (id:number):Promise<boolean>=>{
-    await db.delete(PaymentTable).where(eq(PaymentTable.payment_id,id)).returning()
-    return true
- }
 
+export const deletePaymentService = async (id: number) => {
+    await db.delete(PaymentTable).where(eq(PaymentTable.payment_id, id)).execute();
+    return 'Payment deleted successfully';
+}

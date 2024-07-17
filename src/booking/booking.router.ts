@@ -3,6 +3,7 @@ import {bookingController,getAllBookingsController,createBookingController,delet
 import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
 import { bookingSchema} from "../validator";
+import { adminRoleAuth,userRoleAuth } from "../middleware/bearAuth";
 
 export const bookingRouter = new Hono();
 

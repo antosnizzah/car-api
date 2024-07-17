@@ -1,9 +1,9 @@
 import { Hono } from "hono";
-import { getAllPaymentsController,createPaymentController,deletePaymentController,paymentController,updatePaymentController } from "./payment.controller";
+import {createPaymentController,getPaymentByBookingController, updatePaymentController,deletePaymentController} from './payment.controller';
 
-export const paymentRouter = new Hono();
-paymentRouter.get("/payment", paymentController)
-paymentRouter.post("/payment", createPaymentController)
-paymentRouter.delete("/payment/:id", deletePaymentController)
-paymentRouter.put("/payment/:id", updatePaymentController)
-paymentRouter.get("/payment/:id", getAllPaymentsController)
+export const paymentsRouter = new Hono();
+
+paymentsRouter.post('/payments',createPaymentController);
+paymentsRouter.get('/payments/:booking_id', getPaymentByBookingController);
+paymentsRouter.put('/payments/:id', updatePaymentController);
+paymentsRouter.delete('/payments/:id', deletePaymentController);

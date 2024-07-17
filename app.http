@@ -1,6 +1,50 @@
 ###default path
-GET http://localhost:8000
-###get user 
+GET http://localhost:8000/
+###
+GET http://localhost:8000/bookingoffers/9
+###
+POST http://localhost:8000/bookingoffers
+Content-Type: application/json
+
+{
+  "vehicle_id": "name",
+  "offer_id": 1,
+  "discount": 10,
+  "status": "active",
+  "booking_id": 9
+}
+###
+PUT http://localhost:8000/bookingoffers/20
+Content-Type: application/json
+
+{
+  "status": "inactive"
+}
+###
+GET http://localhost:8000/bookings
+###
+POST http://localhost:8000/bookings
+Content-Type: application/json
+
+{
+  "user_id": 7,
+  "vehicle_id": 1,
+  "status": "pending",
+  "total_cost": 1000,
+  "payment_id": "SB32W",
+  "location_id": 1
+
+}
+###
+PUT http://localhost:8000/bookings/8
+Content-Type: application/json
+
+{
+  "status": "approved"
+  }
+###
+DELETE http://localhost:8000/bookings/8
+###get user
 GET http://localhost:8000/users/2
 ###create a new user
 
@@ -26,20 +70,20 @@ Content-Type: application/json
   }
 
 ###delete users details
-  DELETE http://localhost:8000/users
+  DELETE http://localhost:8000/users/12
 
 ###register
 POST   http://localhost:8000/auth/register
 Content-Type: application/json
 
 {
-     "full_name": "antony githinji",
-    "username": "antonyg",
+     "full_name": "gichuki anthony gatitu",
+    "username": "antohsnizzah",
     "contact_phone": "1234567890",
      "email": "antohsnizzah@gmail.com",
-    "password": "pass",
-    "user_id": "100",
-    "address":"maua"
+    "password": "antohsnizzah",
+    "address":"maua",
+    "role": "admin"
   }
 
 ###login~~
@@ -47,13 +91,23 @@ POST   http://localhost:8000/auth/login
 Content-Type: application/json
 
 {
-    "username": "antonyg",
-    "password": "pass"
+    "username": "antohsnizzah",
+    "password": "antohsnizzah"
 }
 ###
-GET http://localhost:8000/bookings/
+GET http://localhost:8000/vehicles
 ###
 
 GET http://localhost:8000/vehiclespecifications
 ###
-GET http://localhost:8000/getReviewsRating/2
+POST http://localhost:8000/payments
+Content-Type: application/json
+
+{  
+   "booking_id": "9",
+  "user_id": 7,
+  "payment_method": "mpesa",
+  "amount": 1000,
+  "status": "pending"
+}
+
