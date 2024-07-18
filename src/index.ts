@@ -22,7 +22,7 @@ import { reviewRouter } from './reviewrating/rating.router';
 
 const app = new Hono();// Enable CORS for all routes
 app.use('*', cors({
-  origin: 'car-client-tau.vercel.app', // Replace with your frontend URL
+  origin: 'https://car-client-tau.vercel.app', // Replace with your frontend URL
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
 }));
