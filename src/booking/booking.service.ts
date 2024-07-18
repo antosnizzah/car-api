@@ -35,6 +35,7 @@ export const getbookingService = async ()=>{
                             year:true,
                             engine_capacity:true,
                             fuel_type:true,
+                            image:true
                         }
                     },
                 }
@@ -84,9 +85,14 @@ export const getBookingByIdService = async (id: number) => {
 
 // CREATE Booking
 export const createbookingService = async (item: TIBooking) => {
-    await db.insert(BookingTable).values(item)
-    return "booking created successfully";
-}
+    try {
+        await db.insert(BookingTable).values(item);
+        return "booking created successfully";
+    } catch (error) {
+        console.error('Error creating booking:', error);
+        throw new Error('Invalid booking data');
+    }
+};
 
 //  UPDATE Booking
 export const updatebookingService = async(id: number, res: any): Promise<string | undefined>=> {

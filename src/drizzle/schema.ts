@@ -37,6 +37,7 @@ export const VehicleSpecificationTable = pgTable("vehicle_specification", {
   color: varchar("color").notNull(),
   transmission: varchar("transmission").notNull(),
   features: varchar("features").notNull(),
+  image: varchar("image"),
 });
 
 export const VehicleTable = pgTable("vehicle", {
