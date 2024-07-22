@@ -12,6 +12,7 @@ export const UsersTable = pgTable("users", {
   contact_phone: integer("contact_phone").notNull(),
   email_verified: boolean("email_verified"),
   address: varchar("address").notNull(),
+  image: varchar("image"),
 });
 
 export const roleEnum = pgEnum("role", ["user", "admin"]);
@@ -21,6 +22,8 @@ export const AuthorizeUsersTable = pgTable("authorizeusers", {
   user_id: integer("user_id").references(() => UsersTable.user_id, { onDelete: "cascade" }),
   password: varchar("password").notNull(),
   username: varchar("username").notNull(),
+  resetToken: varchar("resetToken"),
+  email: varchar("email").notNull(),
   role: roleEnum("role").default("user"),
   verificationToken: varchar("verificationToken"),
   verified: boolean("verified").default(false)
@@ -33,6 +36,7 @@ export const VehicleSpecificationTable = pgTable("vehicle_specification", {
   year: integer("year").notNull(),
   engine_capacity: decimal("engine_capacity").notNull(),
   fuel_type: varchar("fuel_type").notNull(),
+  amount: integer("amount"),
   seating_capacity: integer("seating_capacity").notNull(),
   color: varchar("color").notNull(),
   transmission: varchar("transmission").notNull(),
@@ -46,17 +50,16 @@ export const VehicleTable = pgTable("vehicle", {
   rental_rate: decimal("rental_rate").notNull(),
   rented_out: boolean("rented_out").default(false),
 });
-
+export const bookingEnum = pgEnum("status", ["pending", "approved", "rejected", "completed"]);
 export const BookingTable = pgTable("booking", {
   booking_id: serial("booking_id").primaryKey(),
   user_id: integer("user_id").notNull().references(() => UsersTable.user_id, { onDelete: "cascade" }),
-  vehicle_id: integer("vehicle_id").notNull().references(() => VehicleTable.vehicle_id, { onDelete: "cascade" }),
+  vehicleSpec_id: integer("vehicle_id").notNull().references(() => VehicleSpecificationTable.vehicleSpec_id, { onDelete: "cascade" }),
   location_id: integer("location_id").notNull().references(() => LocationBranchesTable.location_id, { onDelete: "cascade" }),
   booking_date: timestamp("start_date").default(sql`NOW()`).notNull(),
   return_date: timestamp("end_date").default(sql`NOW()`).notNull(),
   total_cost: decimal("total_cost").notNull(),
-  status: varchar("status").notNull(),
-  payment_id: varchar("payment_id").notNull(),
+  booking_status: varchar("booking_status").default("pending"),
 });
 
 export const PaymentTable = pgTable("payment", {
@@ -186,7 +189,7 @@ export const bookingRelations = relations(BookingTable, ({ one, many }) => ({
       references: [UsersTable.user_id],
   }),
   vehicle: one(VehicleTable, {
-      fields: [BookingTable.vehicle_id],
+      fields: [BookingTable.vehicleSpec_id],
       references: [VehicleTable.vehicle_id],
   }),
   location: one(LocationBranchesTable, {

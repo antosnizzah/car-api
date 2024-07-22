@@ -1,12 +1,10 @@
 ###default path
-GET http://localhost:8000/
+GET http://localhost:8000/fleetmanagement
 ###
 GET http://localhost:8000/bookingoffers/9
 ###
 POST http://localhost:8000/bookingoffers
-Content-Type: application/json
-
-{
+Content-Type: application/json{
   "vehicle_id": "name",
   "offer_id": 1,
   "discount": 10,
@@ -27,6 +25,7 @@ POST http://localhost:8000/bookings
 Content-Type: application/json
 
 {
+  "booking_id": 9,
   "user_id": 2,
   "vehicle_id": 2,
   "status": "cancelled",
@@ -41,7 +40,6 @@ Content-Type: application/json
 {
   "user_id": 3,
   "vehicle_id": 5,
-  "status": "pending",
   "total_cost": 1000,
   "payment_id": "SB32W",
   "location_id": 1
@@ -55,9 +53,9 @@ Content-Type: application/json
   "status": "approved"
   }
 ###
-DELETE http://localhost:8000/bookings/8
+DELETE http://localhost:8000/vehicles/123
 ###get user
-GET http://localhost:8000/users/2
+GET http://localhost:8000/users
 ###create a new user
 
 POST http://localhost:8000/users
@@ -82,7 +80,7 @@ Content-Type: application/json
   }
 
 ###delete users details
-  DELETE http://localhost:8000/users/12
+  DELETE http://localhost:8000/users/21
 
 ###register
 POST   http://localhost:8000/auth/register
@@ -104,13 +102,15 @@ Content-Type: application/json
 
 {
     "username": "antohsnizzah",
-    "password": "antohsnizzah"
+    "password": "2a726b8a-1438-4d"
 }
+
 ###
-GET http://localhost:8000/vehicles
+GET http://localhost:8000/locationbranches
 ###
 
-GET http://localhost:8000/vehiclespecifications
+GET http://localhost:8000/payments/54
+
 ###
 POST https://car-api-80da.onrender.com/payments
 Content-Type: application/json
@@ -122,4 +122,29 @@ Content-Type: application/json
   "amount": 1000,
   "status": "pending"
 }
+###
+POST http://localhost:8000/auth/reset-password
+Content-Type: application/json
 
+{
+  "email": "antohsnizzah@gmail.com"
+}
+###
+POST http://localhost:8000/auth/resetting-password
+Content-Type: application/json
+
+{
+  "token": "37eeb20c-1e16-417a-82a3-fe2233025c12",
+  "newPassword": "2a726b8a-1438-4d"
+}
+###
+POST http://localhost:8000/payments
+Content-Type: application/json
+
+{
+  "booking_id": 54,
+  "user_id": 7,
+  "payment_method": "mpesa",
+  "amount": 1000,
+  "status": "pending"
+}

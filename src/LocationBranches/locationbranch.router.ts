@@ -6,9 +6,7 @@ import { zValidator } from "@hono/zod-validator";
 
 export const locationBranchesRouter = new Hono();
 
-locationBranchesRouter.get("/locationbranches",zValidator('json',locationBranchSchema,(result,c)=>{
-    if(!result.success)return c.json(result.error,400)
-    }),getAllLocationBranchesController)
+locationBranchesRouter.get("/locationbranches",getAllLocationBranchesController)
 locationBranchesRouter.get("/locationbranches/:id", locationBranchesController)
 locationBranchesRouter.post("/locationbranches", createLocationBranchesController)
 locationBranchesRouter.put("/locationbranches/:id", updateLocationBranchesController)

@@ -1,6 +1,6 @@
 import { Hono } from 'hono';
 import { zValidator } from '@hono/zod-validator';
-import { register, login, verifyEmail } from './auth.controller';
+import { register, login, verifyEmail, resetPasswordRequest, resetPassword } from './auth.controller';
 import { registerSchema, authorizeSchema } from '../validator';
 
 export const authRouter = new Hono();
@@ -14,3 +14,7 @@ authRouter.post('/login', zValidator('json', authorizeSchema, (result, c) => {
 }), login);
 
 authRouter.get('/verify', verifyEmail);
+
+authRouter.post('/reset-password', resetPasswordRequest);
+
+authRouter.post('/resetting-password', resetPassword);

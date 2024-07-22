@@ -7,7 +7,7 @@ dotenv.config();
 
 export const sendEmail = async (email: string, subject: string, message: string, html: string) => {
     try {
-        console.log('EMAIL:', process.env.EMAIl);
+        console.log('EMAIL:', process.env.EMAIL);
         console.log('PASSWORD:', process.env.PASSWORD);
 
         const transporter = nodemailer.createTransport({
@@ -47,6 +47,12 @@ export const sendEmail = async (email: string, subject: string, message: string,
 export const sendRegistrationEmailTemplate = async (email: string, subject: string, username: string, verificationUrl: string) => {
     const templatePath = path.join(__dirname, 'views', 'emails', 'value3.ejs');
     const html = await ejs.renderFile(templatePath, { username, verificationUrl, imageUrl: 'https://i.pinimg.com/236x/bf/30/49/bf3049c49ba999b811202dd950168b03.jpg' });
+
+    return sendEmail(email, subject, `Hello ${username},`, html);
+};
+export const sendPasswordResetEmailTemplate = async (email: string, subject: string, username: string, resetUrl: string) => {
+    const templatePath = path.join(__dirname, 'views', 'emails', 'passwordReset.ejs');
+    const html = await ejs.renderFile(templatePath, { username, resetUrl, imageUrl: 'https://i.pinimg.com/236x/bf/30/49/bf3049c49ba999b811202dd950168b03.jpg' });
 
     return sendEmail(email, subject, `Hello ${username},`, html);
 };

@@ -10,7 +10,6 @@ export const getbookingService = async ()=>{
     return await db.query.BookingTable.findMany({
         columns:{
             user_id:false,
-            vehicle_id:false
 
         },
         with:{
@@ -50,7 +49,6 @@ export const getBookingByIdService = async (id: number) => {
         where: eq(BookingTable.booking_id, id),
         columns:{
             user_id:false,
-            vehicle_id:false
         },
         with:{
             user:{
