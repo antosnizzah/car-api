@@ -1,7 +1,6 @@
-import { pgTable, serial, text, decimal, varchar,integer,pgEnum, primaryKey, boolean, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, serial, text, decimal, varchar,integer,pgEnum, primaryKey, boolean, timestamp,date } from "drizzle-orm/pg-core";
 import { relations,sql} from "drizzle-orm";
-import { Table } from 'drizzle-orm';
-import { date } from "drizzle-orm/mysql-core";
+
 
 
 // Define Users table
@@ -56,8 +55,8 @@ export const BookingTable = pgTable("booking", {
   user_id: integer("user_id").notNull().references(() => UsersTable.user_id, { onDelete: "cascade" }),
   vehicleSpec_id: integer("vehicle_id").notNull().references(() => VehicleSpecificationTable.vehicleSpec_id, { onDelete: "cascade" }),
   location_id: integer("location_id").notNull().references(() => LocationBranchesTable.location_id, { onDelete: "cascade" }),
-  booking_date: timestamp("start_date").default(sql`NOW()`).notNull(),
-  return_date: timestamp("end_date").default(sql`NOW()`).notNull(),
+  booking_date: date("start_date").notNull(),
+  return_date: date("end_date").notNull(),
   total_cost: decimal("total_cost").notNull(),
   booking_status: varchar("booking_status").default("pending"),
 });

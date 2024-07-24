@@ -134,7 +134,7 @@ POST http://localhost:8000/auth/resetting-password
 Content-Type: application/json
 
 {
-  "token": "37eeb20c-1e16-417a-82a3-fe2233025c12",
+  "token": "a8129f96-b837-4891-a6e6-087bb2c395ef",
   "newPassword": "2a726b8a-1438-4d"
 }
 ###

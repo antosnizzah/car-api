@@ -17,11 +17,11 @@ export const registerSchema = z.object({
 
 export const bookingSchema = z.object({
     location_id: z.number(),
-    // booking_date: z.string(),
-    // return_date: z.string(),
-    // total_cost: z.string(),
-    // status: z.string(),
-    // payment_id: z.string(),
+    booking_date: z.string(),
+    return_date: z.string(),
+    user_id:z.number(),
+    total_cost: z.number(),
+    vehicleSpec_id:z.number(),
     // user: z.object({
     //   full_name: z.string(),
     //   contact_phone: z.string(),

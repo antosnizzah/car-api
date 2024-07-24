@@ -11,8 +11,6 @@ maintainanceRecordsRouter.put("/maintainanceRecords/:id", updateMaintainanceReco
 
 maintainanceRecordsRouter.delete("/maintainanceRecords/:id", deleteMaintainanceRecordController);
 
-maintainanceRecordsRouter.get("/maintainanceRecords",zValidator('json',maintainanceRecschema,(result,c)=>{
-    if(!result.success)return c.json(result.error,400)
-    }),getAllMaintainanceRecordController);
+maintainanceRecordsRouter.get("/maintainanceRecords",getAllMaintainanceRecordController);
 
 
