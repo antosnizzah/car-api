@@ -1,63 +1,135 @@
+
+import {stripe} from "../drizzle/db";
+import {
+  deletePaymentService,
+  createPaymentService,
+  getPaymentsService,
+  PaymentsService,
+  updatePaymentService,
+} from "./payment.service";
 import { Context } from "hono";
-import { createPaymentService,getPaymentByBookingService, updatePaymentService,deletePaymentService} from "./payment.service";
-
-
-export const createPaymentController = async (c:Context) =>{
+ 
+// List all Payments
+export const listPayments = async (c: Context): Promise<Response> => {
+  const payments = await PaymentsService();
+  return c.json(payments);
+};
+ 
+// Get a single Payment by ID
+export const getPayment = async (c: Context): Promise<Response> => {
+  const id = Number(c.req.param('id'));
+  if (isNaN(id)) {
+    return c.json({ error: "Invalid ID" }, 400);
+  }
+  const payment = await getPaymentsService(id);
+  if (!payment) {
+    return c.json({ error: "Payment not found" }, 404);
+  }
+  return c.json(payment, 200);
+};
+ 
+// Create a new Payment
+const paymentService = createPaymentService();
+ 
+export const createPayments = {
+    async createCheckoutSession(c: Context): Promise<Response> {
+      try {
+        const { booking_id, amount } = await c.req.json();
+        console.log(`Check if id and amount is being received: ${booking_id}, amount: ${amount}`);
+  
+        const session = await paymentService.createCheckoutSession(booking_id, amount);
+  
+        return c.json({
+          sessionId: session.id,
+          checkoutUrl: session.url,
+        });
+      } catch (error) {
+        console.error("Error creating checkout session:", error);
+        return c.json({ success: false, error: "Failed to create checkout session" }, 500);
+      }
+    },
+ 
+  // Testing of checkout session
+  async testCreateCheckoutSession(c: Context): Promise<Response> {
     try {
-        const payment = await c.req.json();
-        const result = await createPaymentService(payment);
-        return c.json(result, 201);
-    } catch (error: any) {
-        return c.json({error: error.message}, 400);
+      // For testing, we'll use hardcoded values
+      const bookingId = 4;
+      const amount = 10000; // $100
+      console.log(`Testing checkout session inputs for bookingId: ${bookingId}, amount: ${amount}`);
+ 
+      const session = await paymentService.createCheckoutSession(bookingId, amount);
+      // Trying to update data on my tables once successful
+      await paymentService.handleSuccessfulPayment(session.id);
+ 
+      return c.json({
+        success: true,
+        sessionId: session.id,
+        checkoutUrl: session.url,
+      });
+    } catch (error) {
+      console.error("Error creating checkout session:", error);
+      return c.json({ success: false, error: "Failed to create checkout session" }, 500);
     }
-}
-
-export const getPaymentByBookingController = async (c:Context) =>{
+  },
+ 
+  // Handle webhook
+  async handleWebhook(c: Context): Promise<Response> {
+    const sig = c.req.header("stripe-signature");
+    const rawBody = await c.req.raw.text();
+ 
     try {
-        const {booking_id} = c.req.param();
-        const payment = await getPaymentByBookingService(parseInt(booking_id));
-        if(!payment){
-            return c.json({message: 'Payment not found'}, 404);
-        }
-        return c.json(payment, 200);
-    } catch (error: any) {
-        return c.json({error: error.message}, 400);
+      const event = stripe.webhooks.constructEvent(
+        rawBody,
+        sig!,
+        process.env.STRIPE_WEBHOOK_SECRET!
+      );
+ 
+      if (event.type === "checkout.session.completed") {
+        const session = event.data.object;
+        await paymentService.handleSuccessfulPayment(session.id);
+      }
+ 
+      return c.json({ received: true });
+    } catch (err) {
+      console.error(err);
+      return c.json({ error: "Webhook error" }, 400);
     }
-}
-
-export const updatePaymentController = async (c:Context) =>{
-    const id = parseInt(c.req.param('id'));
-    if(isNaN(id)) return c.text("Invalid ID", 400);
+  },
+};
+ 
+// Update a Payment
+export const updatePayments = async (c: Context): Promise<Response> => {
+  try {
+    const id = Number(c.req.param('id'));
+    if (isNaN(id)) return c.text("Invalid ID", 400);
+ 
     const payment = await c.req.json();
-    try {
-        //search
-        const searchpayment = await getPaymentByBookingService(id);
-        if(!searchpayment){
-            return c.json({message: 'Payment not found'}, 404);
-        }
-        //update payment
-        const result = await updatePaymentService(id, payment);
-        if(!result) return c.json({message: 'Payment not updated'}, 404);
-        return c.json({message: result}, 200);
-    } catch (error:any) {
-        return c.json({error: error.message}, 400);
-    }
-}
-
-
-export const deletePaymentController = async (c:Context) =>{
-    const id = parseInt(c.req.param('id'));     
-    if(isNaN(id)) return c.text("Invalid ID", 400);
-    try {
-        //seach payment
-        const searchpayment = await getPaymentByBookingService(id);
-        if(!searchpayment){
-            return c.json({message: 'Payment not found'}, 404);
-        }
-        //delete payment
-        const result = await deletePaymentService(id);
-        return c.json({message: result}, 200);
-    } catch (error: any) {
-        return c.json({error: error.message}, 400);
-    }
-}
+    const searchedPayment = await getPaymentsService(id);
+    if (!searchedPayment) return c.text("Payment not found", 404);
+ 
+    const res = await updatePaymentService(id, payment);
+    if (!res) return c.text("Payment not updated", 404);
+ 
+    return c.json({ msg: res }, 201);
+  } catch (error: any) {
+    return c.json({ error: error?.message }, 400);
+  }
+};
+ 
+// Delete a Payment
+export const deletePayments = async (c: Context): Promise<Response> => {
+  try {
+    const id = Number(c.req.param("id"));
+    if (isNaN(id)) return c.text("Invalid ID", 400);
+ 
+    const payment = await getPaymentsService(id);
+    if (!payment) return c.text("Payment not found", 404);
+ 
+    const res = await deletePaymentService(id);
+    if (!res) return c.text("Payment not deleted", 404);
+ 
+    return c.json({ msg: res }, 201);
+  } catch (error: any) {
+    return c.json({ error: error?.message }, 400);
+  }
+};
