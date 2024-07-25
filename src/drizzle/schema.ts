@@ -12,6 +12,7 @@ export const UsersTable = pgTable("users", {
   email_verified: boolean("email_verified"),
   address: varchar("address").notNull(),
   image: varchar("image"),
+  is_active:boolean("is_active"),
 });
 
 export const roleEnum = pgEnum("role", ["user", "admin"]);
