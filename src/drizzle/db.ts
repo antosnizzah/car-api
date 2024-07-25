@@ -13,10 +13,11 @@ const db = drizzle(client, { schema, logger: true })  //create a drizzle instanc
 
 
 
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string,{
+const stripe = new Stripe(process.env.STRIPE_SECRET_API_KEY!, {
     apiVersion: '2024-06-20',
-    typescript: true
 });
+  
+  export { stripe };
 export default db; 
 
 // import "dotenv/config";
