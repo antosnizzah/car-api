@@ -142,9 +142,6 @@ POST http://localhost:8000/checkout-session
 Content-Type: application/json
 
 {
-  "booking_id": 54,
-  "user_id": 7,
-  "payment_method": "mpesa",
-  "amount": 1000,
-  "status": "pending"
+  "booking_id": 57,
+  "amount": 200
 }
