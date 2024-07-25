@@ -138,7 +138,7 @@ Content-Type: application/json
   "newPassword": "2a726b8a-1438-4d"
 }
 ###
-POST http://localhost:8000/payments
+POST http://localhost:8000/checkout-session
 Content-Type: application/json
 
 {
